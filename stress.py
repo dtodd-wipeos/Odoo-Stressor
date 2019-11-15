@@ -34,7 +34,7 @@ class Stress:
         self.stress_iterations = int(os.environ.get('stress_loops', 1000))
         self.api = API()
 
-    def _stress_method(self, id, model, message, stress_method):
+    def _do_stress_method(self, id, model, message, stress_method):
         """
             Does the heavy lifting of the stress test. Uses the randomly provided
             `model` and `stress_method` to do the stress test
@@ -56,12 +56,12 @@ class Stress:
 
         print("Thread ID %d Done!" % (id))
 
-    def _choose_stress(self, id):
+    def _choose_stress_method(self, id):
         """
             Chooses a random model to run a random stress test against
         """
         model = random.choice(self.MODELS)
-        return self._stress_method(
+        return self._do_stress_method(
             id,
             model,
             "Stressing model: %s" % (model),
@@ -73,7 +73,7 @@ class Stress:
             a stress method, and model to run the stress test against in a background thread
         """
         for id in range(self.stress_threads):
-            t = threading.Thread(target=self._choose_stress, args=[id])
+            t = threading.Thread(target=self._choose_stress_method, args=[id])
             t.daemon = True # Background the thread to not block the script while the thread is executing
             t.start()
     
