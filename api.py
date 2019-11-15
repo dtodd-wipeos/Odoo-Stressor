@@ -15,8 +15,13 @@ class API:
         Contains the methods required to connect to an Odoo XMLRPC instance
         and to perform queries against the database.
 
-        Required fields are configured via the environment.
         Currently only supports `search` query types, but more may be added in the future
+
+        These fields are configured via the environment: 
+            `odoo_host` - string, required, the hostname of your odoo instance. Include the `http(s)://` at the beginning
+            `odoo_database` - string, required, the database your odoo instance interacts with. Case sensitive
+            `odoo_user` - integer, optional, the database id of the user to connect to the API with. Defaults to 1 for `admin`
+            `odoo_pass` - string, required, the password of the user to connect to the API with
     """
 
     # The types of query that are able to be made to the Odoo instance
@@ -71,7 +76,7 @@ class API:
     def _query(self, query_type, model, query, options={}):
         """
             Verifies the `query_type` is supported by the API
-            And executes the API request on a new XMLRPC instance, returning the result
+            and executes the API request on a new XMLRPC instance, returning the result
         """
 
         if query_type not in self.QUERY_TYPES:
@@ -92,11 +97,11 @@ class API:
             Searches the `model` for `query` with `options`
             Defaults to search all records with no limit.
 
-            `query` is an Odoo domain, example: `[('id','=',1)]`
+            `query` is an Odoo domain, for example: `[('id','=',1)]`
+
             `options` is a dictionary that supports the following keywords:
                 `limit` - Integer, doesn't return more than this value
-                `offset` - Integer, when used in conjunction with limit, it
-                    will paginate the search results
+                `offset` - Integer, when used in conjunction with limit, it will paginate the search results
         """
     
         return self._query('search', model, query, options)
