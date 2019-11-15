@@ -34,13 +34,6 @@ class Stress:
         self.stress_iterations = int(os.environ.get('stress_loops', 1000))
         self.api = API()
 
-    def _do_search(self, model):
-        """
-            The only available stress method currently. Performs a search
-            on the provided model, which should have a lot of rows
-        """
-        return self.api.do_search(model)
-
     def _stress_method(self, id, model, message, stress_method):
         """
             Does the heavy lifting of the stress test. Uses the randomly provided
@@ -57,9 +50,9 @@ class Stress:
             # We don't use this variable, it's just to suppress output from doing searches
             # which return a huge list of database IDs
             #pylint: disable=unused-variable
-            null = self._do_search(model)
+            null = self.api.do_search(model)
         
-        # More stress tests would be defined above, and then added via an if statement here
+        # More stress methods would be defined above, and then added via an if statement here
 
         print("Thread ID %d Done!" % (id))
 
