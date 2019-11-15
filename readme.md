@@ -11,7 +11,7 @@ More may be added in the future
 
 ## Requirements
 
-Everything is part of the python standard library, go nuts!
+Everything is part of the python3 standard library, go nuts!
 
 ## Usage
 
