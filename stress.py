@@ -21,7 +21,9 @@ class Stress:
             `stress_loops` - Integer, how many times should the stress test be ran
     """
 
-    # Models that are known to contain a lot of rows in Odoo
+    # Models that are known to contain a lot of rows in our Odoo instance
+    # `erpwarehouse.sellable` won't exist for most people, so you should remove that,
+    # else you'll get a ton of exceptions
     MODELS = ['res.partner', 'erpwarehouse.sellable', 'mail.message']
 
     # The stressors that are available
