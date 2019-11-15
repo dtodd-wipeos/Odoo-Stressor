@@ -86,3 +86,4 @@ class Stress:
         for iteration in range(self.stress_iterations):
             print("Iteration: %d" % (iteration))
             self.do_stress_threads()
+            time.sleep(30) # Wait a little bit between the waves of attack
