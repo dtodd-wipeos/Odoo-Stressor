@@ -9,6 +9,10 @@ to utilize all of the available resources and to not cause significant denial of
 Currently, the only availabe stress option is performing heavy searches on models known to have a lot of rows.
 More may be added in the future
 
+## Requirements
+
+Everything is part of the python standard library, go nuts!
+
 ## Usage
 
 There are multiple ways that this program can be used, but ultimately they both do the same thing.
