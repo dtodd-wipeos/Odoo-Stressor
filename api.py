@@ -25,7 +25,7 @@ class API:
     """
 
     # The types of query that are able to be made to the Odoo instance
-    QUERY_TYPES = ['search']
+    QUERY_TYPES = ['search', 'create', 'read', 'write', 'unlink', 'search_read']
 
     def __init__(self):
         """
@@ -102,6 +102,81 @@ class API:
             `options` is a dictionary that supports the following keywords:
                 `limit` - Integer, doesn't return more than this value
                 `offset` - Integer, when used in conjunction with limit, it will paginate the search results
+
+            Returns a list of record database IDs that matched the `query`
         """
     
         return self._query('search', model, query, options)
+
+    def do_create(self, model, query):
+        """
+            Creates one or more records on `model` with the supplied `query`
+
+            `query` is a dictionary of the fields that are to be added, and
+            will fail if it is missing any fields with the attribute `required=True`
+
+            `query` has data type constraint requirements:
+                `Date`, `DateTime`, `Binary (base64)` fields are all presented as str()
+                Relational fields (`one2many`, `many2one`, `many2many`) follow the pattern defined at
+                https://www.odoo.com/documentation/9.0/reference/orm.html#openerp.models.Model.write
+
+            Unlike most other query_types, it does not take any options
+
+            Returns a list of record database IDs that were created
+        """
+
+        return self._query('create', model, query)
+
+    def do_read(self, model, query, options={}):
+        """
+            Reads one or more records on `model` with the supplied `query`
+
+            `query` is a list of record database IDs to read
+
+            `options` is a dictionary that supports the following keywords:
+                `fields` - A list of specific fields to read from, when unset all fields are read
+            
+            Returns a list of dictionaries, where each dictionary is a record with the fields that were read
+        """
+
+        return self._query('read', model, query, options)
+
+    def do_update(self, model, query, options={}):
+        """
+            Updates one or more records on `model`, selected with `query`
+
+            `query` is a list of record database IDs to update
+
+            `options` is a dictionary that contains the fields to change, and their new values
+
+            Returns a list of record database IDs that were updated
+        """
+
+        return self._query('write', model, query, options)
+
+    def do_delete(self, model, query):
+        """
+            Deletes one or more records on `model`, selected with `query`
+
+            `query` is a list of record database IDs to delete
+
+            Unlike most other query_types, it does not take any options
+
+            Returns a list of record database IDs that were deleted
+        """
+
+        return self._query('unlink', model, query)
+
+    def do_search_and_read(self, model, query, options={}):
+        """
+            Shortcut for `do_read()` with the result of `do_search()` being used as the `query`
+
+            `query` is an Odoo domain, for example: `[('id','=',1)]`
+
+            `options` is a dictionary that supports the following keywords:
+                `fields` - A list of specific fields to read from, when unset all fields are read.
+
+            Returns a list of dictionaries, where each dictionary is a record with the fields that were read
+        """
+
+        return self._query('search_read', model, query, options)
