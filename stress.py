@@ -63,7 +63,7 @@ class Stress:
 
         print("Thread ID %d Done!" % (id))
 
-    def choose_stress(self, id):
+    def _choose_stress(self, id):
         """
             Chooses a random model to run a random stress test against
         """
@@ -74,17 +74,17 @@ class Stress:
             "Stressing model: %s" % (model),
             random.choice(self.STRESS_METHODS))
 
-    def do_stress_iteration(self):
+    def do_stress_threads(self):
         """
             Loops up to `max(self.stress_threads)`, which will each randomly choose
             a stress method, and model to run the stress test against in a background thread
         """
         for id in range(self.stress_threads):
-            t = threading.Thread(target=self.choose_stress, args=[id])
+            t = threading.Thread(target=self._choose_stress, args=[id])
             t.daemon = True # Background the thread to not block the script while the thread is executing
             t.start()
     
-    def do_stress(self):
+    def do_stress_iterations(self):
         """
             Loops up to `max(self.stress_iterations)`, which will invoke spawning
             `max(self.stress_threads)` in the background for stress testing after
@@ -92,4 +92,4 @@ class Stress:
         """
         for iteration in range(self.stress_iterations):
             print("Iteration: %d" % (iteration))
-            self.do_stress_iteration()
+            self.do_stress_threads()

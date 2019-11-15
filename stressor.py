@@ -32,4 +32,4 @@
 from stress import Stress
 
 if __name__ == '__main__':
-    Stress().do_stress()
+    Stress().do_stress_iterations()
