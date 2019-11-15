@@ -34,5 +34,5 @@ from api import API
 
 if __name__ == '__main__':
     api = API()
-    stress = Stress()
-    stress.do_stress(api)
+    stress = Stress(api)
+    stress.do_stress()
