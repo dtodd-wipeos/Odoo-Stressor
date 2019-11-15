@@ -5,6 +5,7 @@
 # License: MIT License, refer to `license.md` for more information
 
 from exceptions import InputError
+from api import API
 
 import threading
 import random
@@ -14,8 +15,6 @@ import os
 class Stress:
     """
         Contains the methods that perform the stress testing against Odoo.
-
-        The non-optional `api` field is an instance of the `API` class.
 
         These optional fields are configured via the environment:
             `stress_threads` - Integer, how many threads to spawn per loop
@@ -28,10 +27,10 @@ class Stress:
     # The stressors that are available
     STRESS_METHODS = ['search']
 
-    def __init__(self, api):
+    def __init__(self):
         self.stress_threads = int(os.environ.get('stress_threads', 100))
         self.stress_iterations = int(os.environ.get('stress_loops', 1000))
-        self.api = api
+        self.api = API()
 
     def _do_search(self, model):
         """

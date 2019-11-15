@@ -30,9 +30,6 @@
 """
 
 from stress import Stress
-from api import API
 
 if __name__ == '__main__':
-    api = API()
-    stress = Stress(api)
-    stress.do_stress()
+    Stress().do_stress()
