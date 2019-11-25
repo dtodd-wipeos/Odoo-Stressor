@@ -15,8 +15,6 @@ class API:
         Contains the methods required to connect to an Odoo XMLRPC instance
         and to perform queries against the database.
 
-        Currently only supports `search` query types, but more may be added in the future
-
         These fields are configured via the environment: 
             `odoo_host` - string, required, the hostname of your odoo instance. Include the `http(s)://` at the beginning
             `odoo_database` - string, required, the database your odoo instance interacts with. Case sensitive
@@ -105,7 +103,7 @@ class API:
 
             Returns a list of record database IDs that matched the `query`
         """
-    
+
         return self._query('search', model, query, options)
 
     def do_create(self, model, query):
@@ -135,7 +133,7 @@ class API:
 
             `options` is a dictionary that supports the following keywords:
                 `fields` - A list of specific fields to read from, when unset all fields are read
-            
+
             Returns a list of dictionaries, where each dictionary is a record with the fields that were read
         """
 
