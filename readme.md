@@ -25,9 +25,24 @@ The second is to export the following into your envirnoment before running `stre
 * `export odoo_pass='<string, required, your user's password>'`
 * `export stress_threads=<integer, optional>` - The default value of 100 will be used if not provided
 * `export stress_loops=<integer, optional>` - The default value of 1000 will be used if not provided
+* `export wait_time=<integer, optional>` - The default value of 30 will be used if not provided. Defines how long the script will wait between each `stress_loop`
 
 These will be loaded in by the stressor and then ran by creating a bunch of threads, each selecting a random model and stress method.
 Then it will do it again for however many `stress_loops` are defined.
+
+### Docker
+
+There is now a docker file for large scale stress testing.
+The container that this creates is about 60.5MiB in size, much smaller than Debian's official `buster slim python` container.
+
+`build-run-docker.sh` is a convenience mechanism that will create a minimal docker container and run it (essentially the same as running the script yourself)
+
+If you are going to use docker, be sure to create a `.env` file with the same layout as `sample.env` before running `build-run-docker.sh`
+
+#### `.env` file
+
+The .env file must not contain quotes around any of the arguements, else you will get invalid contexts with `XMLRPC`.
+The variables are defined just like the ones required if you were to use `run.sh`
 
 ## MIT License
 
