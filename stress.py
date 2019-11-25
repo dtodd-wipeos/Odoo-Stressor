@@ -51,7 +51,7 @@ class Stress:
             # which return a huge list of database IDs
             #pylint: disable=unused-variable
             null = self.api.do_search(model)
-        
+
         # More stress methods would be defined above, and then added via an if statement here
 
         print("Thread ID %d Done!" % (id))
@@ -76,7 +76,7 @@ class Stress:
             t = threading.Thread(target=self._choose_stress_method, args=[id])
             t.daemon = True # Background the thread to not block the script while the thread is executing
             t.start()
-    
+
     def do_stress_iterations(self):
         """
             Loops up to `max(self.stress_iterations)`, which will invoke spawning
@@ -86,4 +86,4 @@ class Stress:
         for iteration in range(self.stress_iterations):
             print("Iteration: %d" % (iteration))
             self.do_stress_threads()
-            time.sleep(30) # Wait a little bit between the waves of attack
+            time.sleep(int(os.environ.get('wait_time', 30))) # Wait a little bit between the waves of attack
